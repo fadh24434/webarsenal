@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>WebArsenal — The Ultimate Web Extraction Toolkit</title>
+<meta name="description" content="110 battle-hardened modules to scrape, mirror, extract, analyze, export and monitor any deployed web target."/>
+<meta property="og:title" content="WebArsenal — 110 Web Extraction Modules"/>
+<meta property="og:description" content="Scrape. Mirror. Extract. Analyze. Export. Integrate. Monitor. Any deployed web target."/>
+
+<!-- FAVICON — SVG inline data URI -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0a09'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23e8390e' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%23e8390e'/%3E%3Cline x1='10' y1='16' x2='5' y2='16' stroke='%23e8390e' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='22' y1='16' x2='27' y2='16' stroke='%23e8390e' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='16' y1='10' x2='16' y2='5' stroke='%23e8390e' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='16' y1='22' x2='16' y2='27' stroke='%23e8390e' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='9.2' cy='9.2' r='1.5' fill='%23e8390e' opacity='0.5'/%3E%3Ccircle cx='22.8' cy='9.2' r='1.5' fill='%23e8390e' opacity='0.5'/%3E%3Ccircle cx='9.2' cy='22.8' r='1.5' fill='%23e8390e' opacity='0.5'/%3E%3Ccircle cx='22.8' cy='22.8' r='1.5' fill='%23e8390e' opacity='0.5'/%3E%3C/svg%3E"/>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&display=swap" rel="stylesheet"/>
+
+<style>
+:root {
+  --ink:     #0a0a09;
+  --paper:   #f2f0e8;
+  --bone:    #e0ddd0;
+  --dust:    #b5b2a3;
+  --fog:     #787570;
+  --fire:    #e8390e;
+  --ember:   #ff6b3d;
+  --ice:     #b8eeff;
+  --gold:    #d4a843;
+  --leaf:    #5af78e;
+  --ff-d: 'Syne', sans-serif;
+  --ff-s: 'Fraunces', serif;
+  --ff-m: 'DM Mono', monospace;
+  --ease: cubic-bezier(0.16,1,0.3,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);color:var(--paper);
+  font-family:var(--ff-m);font-weight:300;
+  line-height:1.6;overflow-x:hidden;cursor:none;
+}
+a{color:inherit;text-decoration:none}
+button{border:none;background:none;cursor:none;font:inherit;color:inherit}
+
+/* Noise */
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9990;opacity:0.25;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");}
+
+/* Cursor */
+#cur{position:fixed;width:10px;height:10px;background:var(--fire);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:exclusion;transition:width .25s var(--ease),height .25s var(--ease),background .2s;}
+#cur.h{width:44px;height:44px;background:var(--paper);}
+#curt{position:fixed;width:34px;height:34px;border:1px solid rgba(232,57,14,0.45);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .2s var(--ease);}
+
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-track{background:var(--ink)}::-webkit-scrollbar-thumb{background:var(--fire)}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.3rem 2.5rem;
+  border-bottom:1px solid rgba(242,240,232,0.06);
+  backdrop-filter:blur(24px) saturate(160%);
+  background:rgba(10,10,9,0.8);
+}
+.nlogo{font-family:var(--ff-d);font-weight:800;font-size:1.1rem;letter-spacing:-0.03em;display:flex;align-items:center;gap:0.55rem;}
+.nlogo-ic{width:26px;height:26px;background:var(--fire);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.nlogo-ic svg{width:14px;height:14px;}
+.nlogo em{color:var(--fire);font-style:normal;}
+.nlinks{display:flex;gap:2.5rem;list-style:none;position:absolute;left:50%;transform:translateX(-50%);}
+.nlinks a{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--fog);transition:color .2s;}
+.nlinks a:hover,.nlinks a.on{color:var(--paper);}
+.nstar{display:flex;align-items:center;gap:0.4rem;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.5rem 1rem;border:1px solid rgba(232,57,14,0.45);border-radius:2px;color:var(--fire);transition:all .2s;}
+.nstar:hover{background:var(--fire);color:var(--paper);border-color:var(--fire);}
+.nstar svg{width:12px;height:12px;fill:currentColor;}
+
+/* PAGES */
+.page{display:none;}.page.on{display:block;}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;gap:3rem;
+  padding:8rem 2.5rem 4rem;max-width:1400px;margin:0 auto;
+}
+.hkick{display:inline-flex;align-items:center;gap:0.6rem;font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--fire);margin-bottom:1.75rem;padding:0.35rem 0.8rem;border:1px solid rgba(232,57,14,0.3);border-radius:2px;}
+.hkick-dot{width:5px;height:5px;border-radius:50%;background:var(--fire);animation:pd 2s ease-in-out infinite;}
+@keyframes pd{0%,100%{opacity:1}50%{opacity:.3}}
+.hh1{font-family:var(--ff-d);font-weight:800;font-size:clamp(3.5rem,7vw,6.2rem);line-height:.9;letter-spacing:-.05em;margin-bottom:1.5rem;}
+.hh1 em{font-family:var(--ff-s);font-style:italic;font-weight:300;color:var(--fire);}
+.hh1 .ghost{color:transparent;-webkit-text-stroke:1px rgba(242,240,232,.18);}
+.hp{font-size:.9rem;color:var(--fog);max-width:420px;line-height:1.8;margin-bottom:2.25rem;}
+.hacts{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.btn-f{display:inline-flex;align-items:center;gap:.55rem;background:var(--fire);color:var(--paper);padding:.8rem 1.65rem;border-radius:2px;font-family:var(--ff-m);font-size:.78rem;letter-spacing:.04em;position:relative;overflow:hidden;transition:transform .2s var(--ease);}
+.btn-f::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.12);transform:translateX(-100%);transition:transform .3s var(--ease);}
+.btn-f:hover::after{transform:translateX(0);}
+.btn-f:hover{transform:translateY(-2px);}
+.btn-o{display:inline-flex;align-items:center;gap:.55rem;padding:.8rem 1.35rem;border-radius:2px;font-family:var(--ff-m);font-size:.78rem;letter-spacing:.04em;color:var(--dust);border:1px solid rgba(242,240,232,.13);transition:all .2s;}
+.btn-o:hover{color:var(--paper);border-color:rgba(242,240,232,.35);}
+.hmeta{display:flex;gap:2rem;padding-top:1.75rem;border-top:1px solid rgba(242,240,232,.07);}
+.hstat-n{font-family:var(--ff-d);font-weight:800;font-size:2rem;letter-spacing:-.04em;line-height:1;}
+.hstat-n sub{color:var(--fire);font-size:1.1rem;}
+.hstat-l{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fog);margin-top:.2rem;}
+
+/* ── HERO VISUAL ── */
+.hvisual{position:relative;display:flex;align-items:center;justify-content:center;}
+.hvwrap{
+  position:relative;width:100%;max-width:560px;aspect-ratio:1/1.02;
+  border:1px solid rgba(232,57,14,.2);border-radius:4px;
+  background:linear-gradient(135deg,rgba(232,57,14,.04) 0%,transparent 50%,rgba(184,238,255,.025) 100%);
+  overflow:visible;
+}
+/* Corner brackets */
+.co{position:absolute;width:14px;height:14px;border-color:var(--fire);border-style:solid;border-width:0;}
+.co.tl{top:-1px;left:-1px;border-top-width:2px;border-left-width:2px;}
+.co.tr{top:-1px;right:-1px;border-top-width:2px;border-right-width:2px;}
+.co.bl{bottom:-1px;left:-1px;border-bottom-width:2px;border-left-width:2px;}
+.co.br{bottom:-1px;right:-1px;border-bottom-width:2px;border-right-width:2px;}
+/* Scanline */
+.sl{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(232,57,14,.25),transparent);animation:scan 5s linear infinite;pointer-events:none;}
+@keyframes scan{0%{top:-1%}100%{top:102%}}
+/* Central art */
+.hvart{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+
+/* Terminal cards */
+.tc{
+  position:absolute;background:rgba(8,8,6,.93);
+  border:1px solid rgba(242,240,232,.09);border-radius:4px;
+  padding:.9rem 1.1rem;font-family:var(--ff-m);font-size:.68rem;line-height:1.75;
+  backdrop-filter:blur(10px);box-shadow:0 24px 56px rgba(0,0,0,.55);
+  min-width:200px;z-index:10;
+}
+.tc1{top:3%;left:-10%;animation:fc1 7s ease-in-out infinite;}
+.tc2{top:28%;right:-12%;animation:fc2 8s ease-in-out infinite;}
+.tc3{bottom:20%;left:-8%;animation:fc1 6.5s ease-in-out infinite .5s;}
+.tc4{bottom:4%;right:-9%;animation:fc2 7.5s ease-in-out infinite 1s;}
+@keyframes fc1{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes fc2{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+.tbar{display:flex;gap:5px;margin-bottom:.6rem;align-items:center;}
+.td{width:7px;height:7px;border-radius:50%;}
+.td.r{background:#ff5f57}.td.y{background:#ffbd2e}.td.g{background:#28c940}
+.tlbl{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fog);margin-left:auto;}
+.cc{color:var(--fire)}.cg{color:var(--leaf)}.cy{color:#f3f99d}.cm{color:var(--fog)}
+
+/* TICKER */
+.ticker{overflow:hidden;border-top:1px solid rgba(242,240,232,.06);border-bottom:1px solid rgba(242,240,232,.06);padding:.65rem 0;background:rgba(242,240,232,.01);}
+.ttrack{display:flex;width:max-content;animation:tk 30s linear infinite;}
+@keyframes tk{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ti{font-size:.67rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fog);padding:0 2rem;white-space:nowrap;display:flex;align-items:center;gap:.8rem;}
+.ti::after{content:'✦';color:var(--fire);font-size:.45rem;}
+
+/* SECTIONS */
+.sec{max-width:1400px;margin:0 auto;padding:6.5rem 2.5rem;}
+.slabel{font-size:.63rem;letter-spacing:.18em;text-transform:uppercase;color:var(--fire);margin-bottom:.9rem;display:flex;align-items:center;gap:.7rem;}
+.slabel::after{content:'';flex:0 0 36px;height:1px;background:var(--fire);}
+.stitle{font-family:var(--ff-d);font-weight:800;font-size:clamp(2rem,3.8vw,3.2rem);letter-spacing:-.04em;line-height:1.0;margin-bottom:1.1rem;}
+.ssub{font-size:.88rem;color:var(--fog);max-width:480px;line-height:1.8;}
+
+/* MODULE GRID */
+.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:3.5rem;background:rgba(242,240,232,.06);border:1px solid rgba(242,240,232,.06);border-radius:4px;overflow:hidden;}
+.mc{background:var(--ink);padding:1.75rem 1.5rem;transition:background .25s;position:relative;}
+.mc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--fire);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease);}
+.mc:hover{background:rgba(242,240,232,.025);}
+.mc:hover::after{transform:scaleX(1);}
+.mic{width:38px;height:38px;margin-bottom:1.1rem;display:flex;align-items:center;justify-content:center;border:1px solid rgba(232,57,14,.28);border-radius:3px;background:rgba(232,57,14,.05);}
+.mic svg{width:16px;height:16px;stroke:var(--fire);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.mnum{font-size:.58rem;letter-spacing:.1em;color:var(--fire);margin-bottom:.4rem;}
+.mname{font-family:var(--ff-d);font-weight:700;font-size:.95rem;letter-spacing:-.02em;margin-bottom:.3rem;}
+.mdir{font-size:.67rem;color:var(--fire);opacity:.65;margin-bottom:.55rem;}
+.mdesc{font-size:.75rem;color:var(--fog);line-height:1.6;}
+.mpills{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.85rem;}
+.mpill{font-size:.57rem;letter-spacing:.05em;padding:.18rem .45rem;border-radius:1px;background:rgba(242,240,232,.05);color:var(--dust);}
+
+/* SCENARIOS */
+.scwrap{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:3.5rem;}
+.sc{border:1px solid rgba(242,240,232,.07);border-radius:4px;overflow:hidden;transition:border-color .2s;}
+.sc:hover{border-color:rgba(232,57,14,.35);}
+.schead{padding:1.1rem 1.4rem;border-bottom:1px solid rgba(242,240,232,.06);display:flex;align-items:center;gap:.8rem;background:rgba(242,240,232,.015);}
+.scind{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.ind-r{background:var(--fire)}.ind-g{background:var(--gold)}.ind-b{background:var(--ice)}.ind-l{background:var(--leaf)}
+.sctitle{font-family:var(--ff-d);font-weight:700;font-size:.83rem;letter-spacing:-.01em;}
+.scbody{padding:1.25rem 1.4rem;background:rgba(0,0,0,.22);font-size:.7rem;line-height:1.9;}
+.c-b{color:#7dd3fc}.c-a{color:rgba(242,240,232,.35)}.c-v{color:#fde68a}.c-c{color:rgba(242,240,232,.22)}
+
+/* FEATURES */
+.fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3.5rem;}
+.fi{border-top:1px solid rgba(242,240,232,.09);padding-top:1.4rem;}
+.fiic{width:40px;height:40px;margin-bottom:1.1rem;border-radius:3px;display:flex;align-items:center;justify-content:center;}
+.fiic svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.finame{font-family:var(--ff-d);font-weight:700;font-size:.95rem;letter-spacing:-.02em;margin-bottom:.45rem;}
+.fidesc{font-size:.78rem;color:var(--fog);line-height:1.65;}
+
+/* DOCS LAYOUT */
+.dlayout{display:grid;grid-template-columns:210px 1fr;gap:4rem;max-width:1400px;margin:0 auto;padding:8rem 2.5rem 4rem;min-height:100vh;}
+.dside{position:sticky;top:5.5rem;height:fit-content;}
+.dnavh{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fog);margin-bottom:.6rem;margin-top:1.25rem;}
+.dnavh:first-child{margin-top:0;}
+.dnavl{list-style:none;display:flex;flex-direction:column;gap:.1rem;}
+.dnavl a{font-size:.76rem;color:var(--fog);padding:.35rem .55rem;border-radius:2px;display:block;transition:all .15s;border-left:2px solid transparent;}
+.dnavl a:hover,.dnavl a.on{color:var(--paper);border-left-color:var(--fire);background:rgba(242,240,232,.035);}
+.dcontent h2{font-family:var(--ff-d);font-weight:800;font-size:1.9rem;letter-spacing:-.04em;margin:2.5rem 0 .9rem;}
+.dcontent h2:first-child{margin-top:0;}
+.dcontent h3{font-family:var(--ff-d);font-weight:700;font-size:1.1rem;letter-spacing:-.02em;margin:1.75rem 0 .6rem;}
+.dcontent p{font-size:.85rem;color:var(--fog);line-height:1.8;margin-bottom:.9rem;max-width:660px;}
+.dcontent pre{background:rgba(242,240,232,.035);border:1px solid rgba(242,240,232,.07);border-radius:4px;padding:1.15rem 1.4rem;margin:.9rem 0 1.4rem;overflow-x:auto;}
+.dcontent code{font-family:var(--ff-m);font-size:.76rem;color:var(--paper);line-height:1.85;}
+.dcontent p code{background:rgba(242,240,232,.06);padding:.12rem .35rem;border-radius:2px;font-size:.79rem;color:var(--ember);}
+.dnote{border-left:2px solid var(--fire);padding:.7rem 1.1rem;background:rgba(232,57,14,.05);border-radius:0 4px 4px 0;margin:.9rem 0;font-size:.79rem;color:var(--dust);}
+
+/* ABOUT */
+.ahero{min-height:60vh;display:flex;flex-direction:column;justify-content:flex-end;padding:8rem 2.5rem 3.5rem;max-width:1400px;margin:0 auto;border-bottom:1px solid rgba(242,240,232,.06);}
+.ah1{font-family:var(--ff-d);font-weight:800;font-size:clamp(2.8rem,6.5vw,5.8rem);letter-spacing:-.05em;line-height:.9;margin-bottom:1.75rem;}
+.ah1 em{font-family:var(--ff-s);font-style:italic;color:var(--fire);}
+.abody{display:grid;grid-template-columns:1fr 1fr;gap:5rem;max-width:1400px;margin:0 auto;padding:4.5rem 2.5rem;}
+.ablk p{font-size:.87rem;color:var(--fog);line-height:1.8;margin-bottom:.9rem;}
+.alist{list-style:none;margin-top:1.4rem;}
+.alist li{font-size:.78rem;color:var(--fog);padding:.55rem 0;border-bottom:1px solid rgba(242,240,232,.06);display:flex;align-items:flex-start;gap:.65rem;}
+.alist li::before{content:'↳';color:var(--fire);flex-shrink:0;}
+.stk{margin-top:2.5rem;}
+.stktitle{font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dust);margin-bottom:.9rem;}
+.stkgrid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;}
+.stkitem{display:flex;align-items:center;gap:.6rem;padding:.55rem;border:1px solid rgba(242,240,232,.06);border-radius:2px;font-size:.72rem;color:var(--dust);}
+.stkdot{width:5px;height:5px;border-radius:50%;background:var(--fire);}
+
+/* FOOTER */
+.ft{border-top:1px solid rgba(242,240,232,.06);max-width:1400px;margin:0 auto;padding:2.25rem 2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+.ftlogo{font-family:var(--ff-d);font-weight:800;font-size:.95rem;letter-spacing:-.02em;}
+.ftlogo em{color:var(--fire);font-style:normal;}
+.ftlinks{display:flex;gap:1.75rem;list-style:none;}
+.ftlinks a{font-size:.67rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fog);transition:color .2s;}
+.ftlinks a:hover{color:var(--paper);}
+.ftcopy{font-size:.67rem;color:var(--fog);}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
+.rv.in{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+
+/* CTA */
+.cta{text-align:center;padding:7rem 2.5rem;background:radial-gradient(ellipse 65% 55% at 50% 100%,rgba(232,57,14,.07) 0%,transparent 70%);}
+.cta h2{font-family:var(--ff-d);font-weight:800;font-size:clamp(2.5rem,5.5vw,4.5rem);letter-spacing:-.05em;line-height:.95;margin-bottom:1.25rem;}
+.cta h2 em{color:var(--fire);font-style:normal;}
+.cta p{font-size:.88rem;color:var(--fog);margin-bottom:2.25rem;}
+.ctaacts{display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap;}
+
+/* BADGE ROW */
+.badges{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:3rem;}
+.badge{font-size:.6rem;letter-spacing:.06em;padding:.22rem .6rem;border-radius:1px;background:rgba(242,240,232,.05);border:1px solid rgba(242,240,232,.08);color:var(--fog);}
+.badge.hot{background:rgba(232,57,14,.1);border-color:rgba(232,57,14,.28);color:var(--ember);}
+.badge.new{background:rgba(184,238,255,.06);border-color:rgba(184,238,255,.18);color:var(--ice);}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .hero{grid-template-columns:1fr;}.hvisual{display:none;}
+  .mgrid{grid-template-columns:repeat(2,1fr);}
+  .fgrid{grid-template-columns:repeat(2,1fr);}
+  .abody{grid-template-columns:1fr;gap:3rem;}
+  .dlayout{grid-template-columns:1fr;padding-top:7rem;}
+  .dside{position:static;}
+}
+@media(max-width:700px){
+  nav{padding:1rem 1.25rem;}.nlinks{display:none;}
+  .mgrid{grid-template-columns:1fr;}
+  .scwrap{grid-template-columns:1fr;}
+  .fgrid{grid-template-columns:1fr;}
+  .sec{padding:4rem 1.25rem;}
+  .hero{padding:7rem 1.25rem 3rem;}
+  .ahero{padding:7rem 1.25rem 3rem;}
+  .abody{padding:3rem 1.25rem;}
+  .ft{flex-direction:column;text-align:center;}
+  .ftlinks{justify-content:center;}
+}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="curt"></div>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#" class="nlogo" onclick="go('home');return false;">
+    <div class="nlogo-ic">
+      <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="7" cy="7" r="3" stroke="#f2f0e8" stroke-width="1.2"/>
+        <circle cx="7" cy="7" r="1" fill="#f2f0e8"/>
+        <path d="M4 7H1M13 7H10M7 4V1M7 13V10" stroke="#f2f0e8" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    Web<em>Arsenal</em>
+  </a>
+  <ul class="nlinks">
+    <li><a href="#" id="n-home" class="on" onclick="go('home');return false;">Home</a></li>
+    <li><a href="#" id="n-modules" onclick="go('modules');return false;">Modules</a></li>
+    <li><a href="#" id="n-docs" onclick="go('docs');return false;">Docs</a></li>
+    <li><a href="#" id="n-about" onclick="go('about');return false;">About</a></li>
+  </ul>
+  <a href="https://github.com/edwinnyandika/webarsenal" target="_blank" class="nstar">
+    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    Star on GitHub
+  </a>
+</nav>
+
+<!-- ════════════════════ PAGE: HOME ════════════════════ -->
+<div class="page on" id="p-home">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <div class="hkick"><span class="hkick-dot"></span>v4.0.0 &nbsp;·&nbsp; Open Source &nbsp;·&nbsp; MIT</div>
+      <h1 class="hh1">
+        The Web<br/>
+        Is Your<br/>
+        <em>Database.</em>
+      </h1>
+      <p class="hp">110 battle-hardened JavaScript modules to scrape, mirror, extract, analyze, export, integrate, and monitor any deployed web target.</p>
+      <div class="hacts">
+        <a href="https://github.com/edwinnyandika/webarsenal" class="btn-f" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          Clone on GitHub
+        </a>
+        <a href="#" class="btn-o" onclick="go('docs');return false;">Read Docs <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="hmeta">
+        <div><div class="hstat-n">110<sub>+</sub></div><div class="hstat-l">Modules</div></div>
+        <div><div class="hstat-n">8</div><div class="hstat-l">Categories</div></div>
+        <div><div class="hstat-n">0</div><div class="hstat-l">Config needed</div></div>
+        <div><div class="hstat-n">MIT</div><div class="hstat-l">License</div></div>
+      </div>
+    </div>
+
+    <!-- HERO VISUAL -->
+    <div class="hvisual">
+      <div class="hvwrap">
+        <div class="co tl"></div><div class="co tr"></div>
+        <div class="co bl"></div><div class="co br"></div>
+        <div class="sl"></div>
+
+        <!-- SVG art: network visualization -->
+        <div class="hvart">
+          <svg width="100%" viewBox="0 0 380 400" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="rg" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#e8390e" stop-opacity="0.14"/>
+                <stop offset="100%" stop-color="#e8390e" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="rgb" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#b8eeff" stop-opacity="0.07"/>
+                <stop offset="100%" stop-color="#b8eeff" stop-opacity="0"/>
+              </radialGradient>
+              <filter id="gl" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="3" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <!-- Ambient -->
+            <circle cx="190" cy="200" r="155" fill="url(#rg)"/>
+            <circle cx="190" cy="200" r="75" fill="url(#rgb)"/>
+            <!-- Rings -->
+            <circle cx="190" cy="200" r="145" fill="none" stroke="rgba(232,57,14,.1)" stroke-width="1" stroke-dasharray="3 7"/>
+            <circle cx="190" cy="200" r="96" fill="none" stroke="rgba(242,240,232,.05)" stroke-width="1" stroke-dasharray="1 9"/>
+            <!-- Spokes -->
+            <line x1="190" y1="200" x2="190" y2="57" stroke="rgba(232,57,14,.28)" stroke-width="1"/>
+            <line x1="190" y1="200" x2="318" y2="274" stroke="rgba(232,57,14,.18)" stroke-width="1"/>
+            <line x1="190" y1="200" x2="62" y2="274" stroke="rgba(232,57,14,.18)" stroke-width="1"/>
+            <line x1="190" y1="200" x2="318" y2="126" stroke="rgba(242,240,232,.09)" stroke-width="1"/>
+            <line x1="190" y1="200" x2="62" y2="126" stroke="rgba(242,240,232,.09)" stroke-width="1"/>
+            <line x1="190" y1="200" x2="190" y2="343" stroke="rgba(242,240,232,.07)" stroke-width="1"/>
+            <!-- Outer nodes -->
+            <!-- Top: Core -->
+            <g filter="url(#gl)">
+              <circle cx="190" cy="57" r="26" fill="rgba(8,8,6,.96)" stroke="rgba(232,57,14,.7)" stroke-width="1.5"/>
+              <circle cx="190" cy="57" r="5" fill="#e8390e"/>
+            </g>
+            <text x="190" y="96" text-anchor="middle" fill="rgba(242,240,232,.45)" font-family="'DM Mono',monospace" font-size="8" letter-spacing="0.1em">CORE</text>
+            <!-- Bottom-right: Scrapers -->
+            <circle cx="318" cy="274" r="22" fill="rgba(8,8,6,.96)" stroke="rgba(232,57,14,.45)" stroke-width="1.5"/>
+            <circle cx="318" cy="274" r="4" fill="rgba(232,57,14,.7)"/>
+            <text x="318" y="306" text-anchor="middle" fill="rgba(242,240,232,.38)" font-family="'DM Mono',monospace" font-size="7.5" letter-spacing="0.08em">SCRAPERS</text>
+            <!-- Bottom-left: Exporters -->
+            <circle cx="62" cy="274" r="22" fill="rgba(8,8,6,.96)" stroke="rgba(184,238,255,.3)" stroke-width="1.5"/>
+            <circle cx="62" cy="274" r="4" fill="rgba(184,238,255,.7)"/>
+            <text x="62" y="306" text-anchor="middle" fill="rgba(242,240,232,.38)" font-family="'DM Mono',monospace" font-size="7.5" letter-spacing="0.08em">EXPORT</text>
+            <!-- Top-right: Auth -->
+            <circle cx="318" cy="126" r="18" fill="rgba(8,8,6,.96)" stroke="rgba(212,168,67,.35)" stroke-width="1"/>
+            <circle cx="318" cy="126" r="3.5" fill="rgba(212,168,67,.8)"/>
+            <text x="318" y="152" text-anchor="middle" fill="rgba(242,240,232,.32)" font-family="'DM Mono',monospace" font-size="7" letter-spacing="0.08em">AUTH</text>
+            <!-- Top-left: Monitors -->
+            <circle cx="62" cy="126" r="18" fill="rgba(8,8,6,.96)" stroke="rgba(90,247,142,.3)" stroke-width="1"/>
+            <circle cx="62" cy="126" r="3.5" fill="rgba(90,247,142,.7)"/>
+            <text x="62" y="152" text-anchor="middle" fill="rgba(242,240,232,.32)" font-family="'DM Mono',monospace" font-size="7" letter-spacing="0.08em">MONITOR</text>
+            <!-- Bottom: Integrations -->
+            <circle cx="190" cy="343" r="18" fill="rgba(8,8,6,.96)" stroke="rgba(242,240,232,.15)" stroke-width="1"/>
+            <circle cx="190" cy="343" r="3.5" fill="rgba(184,238,255,.55)"/>
+            <text x="190" y="372" text-anchor="middle" fill="rgba(242,240,232,.3)" font-family="'DM Mono',monospace" font-size="7" letter-spacing="0.08em">INTEGRATIONS</text>
+            <!-- Center hub -->
+            <circle cx="190" cy="200" r="36" fill="rgba(8,8,6,.98)" stroke="rgba(232,57,14,.55)" stroke-width="1.5"/>
+            <circle cx="190" cy="200" r="27" fill="none" stroke="rgba(232,57,14,.12)" stroke-width="1"/>
+            <circle cx="190" cy="200" r="7" fill="#e8390e" filter="url(#gl)"/>
+            <text x="190" y="195" text-anchor="middle" fill="rgba(242,240,232,.45)" font-family="'DM Mono',monospace" font-size="6.5" letter-spacing="0.15em">WEB</text>
+            <text x="190" y="207" text-anchor="middle" fill="rgba(242,240,232,.45)" font-family="'DM Mono',monospace" font-size="6.5" letter-spacing="0.15em">ARSENAL</text>
+            <!-- Animated dots on orbit -->
+            <circle r="4" fill="rgba(232,57,14,.95)" filter="url(#gl)">
+              <animateMotion dur="9s" repeatCount="indefinite">
+                <mpath href="#op1"/>
+              </animateMotion>
+            </circle>
+            <path id="op1" d="M190,55 A145,145 0 1,1 189.99,55" fill="none"/>
+            <circle r="2.5" fill="rgba(184,238,255,.85)">
+              <animateMotion dur="5.5s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">
+                <mpath href="#op2"/>
+              </animateMotion>
+            </circle>
+            <path id="op2" d="M190,104 A96,96 0 1,1 189.99,104" fill="none"/>
+            <!-- Cross-hairs -->
+            <line x1="0" y1="200" x2="380" y2="200" stroke="rgba(242,240,232,.025)" stroke-width="1"/>
+            <line x1="190" y1="0" x2="190" y2="400" stroke="rgba(242,240,232,.025)" stroke-width="1"/>
+          </svg>
+        </div>
+
+        <!-- Floating terminal cards -->
+        <div class="tc tc1">
+          <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div><span class="tlbl">mirror.js</span></div>
+          <div><span class="cc">node</span> core/super-mirror.js</div>
+          <div><span class="cm">--url</span> <span class="cy">https://target.com</span></div>
+          <div><span class="cm">--depth</span> <span class="cg">4</span></div>
+          <div class="cg">✓ 2,841 assets cloned</div>
+        </div>
+        <div class="tc tc2">
+          <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div><span class="tlbl">spa-scraper</span></div>
+          <div><span class="cc">node</span> scrapers/spa-scraper.js</div>
+          <div><span class="cm">--wait-for</span> <span class="cy">'#app'</span></div>
+          <div class="cg">✓ JSON exported</div>
+        </div>
+        <div class="tc tc3">
+          <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div><span class="tlbl">monitor</span></div>
+          <div><span class="cm"># change detected</span></div>
+          <div><span class="cc">price</span> <span class="cy">$49</span> → <span class="cg">$39</span></div>
+          <div><span class="cc">discord</span> alert <span class="cg">✓</span></div>
+        </div>
+        <div class="tc tc4">
+          <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div><span class="tlbl">s3-push</span></div>
+          <div><span class="cc">node</span> integrations/s3.js</div>
+          <div><span class="cm">--bucket</span> <span class="cy">backups</span></div>
+          <div class="cg">✓ Uploaded to S3</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ttrack">
+      <div class="ti">Web Scraping</div><div class="ti">Site Mirroring</div><div class="ti">DOM Analysis</div>
+      <div class="ti">SEO Audits</div><div class="ti">Auth Bypass</div><div class="ti">Data Export</div>
+      <div class="ti">Cloud Sync</div><div class="ti">Change Monitoring</div><div class="ti">Proxy Rotation</div>
+      <div class="ti">Puppeteer</div><div class="ti">Playwright</div><div class="ti">110 Modules</div>
+      <div class="ti">Web Scraping</div><div class="ti">Site Mirroring</div><div class="ti">DOM Analysis</div>
+      <div class="ti">SEO Audits</div><div class="ti">Auth Bypass</div><div class="ti">Data Export</div>
+      <div class="ti">Cloud Sync</div><div class="ti">Change Monitoring</div><div class="ti">Proxy Rotation</div>
+      <div class="ti">Puppeteer</div><div class="ti">Playwright</div><div class="ti">110 Modules</div>
+    </div>
+  </div>
+
+  <!-- Module preview -->
+  <section class="sec rv">
+    <div class="slabel">Arsenal Overview</div>
+    <h2 class="stitle">8 Weapons.<br/>Every Operation.</h2>
+    <p class="ssub">Each module is standalone and CLI-first. Pipe them together or run them solo.</p>
+    <div class="mgrid">
+      <div class="mc">
+        <div class="mic"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.66 0 3-4.03 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4.03-3-9s1.34-9 3-9m-9 9a9 9 0 019-9"/></svg></div>
+        <div class="mnum">01</div><div class="mname">Core Mirrors</div><div class="mdir">core/</div>
+        <div class="mdesc">Recursively clone entire deployed sites with every asset.</div>
+        <div class="mpills"><span class="mpill">Puppeteer</span><span class="mpill">Playwright</span></div>
+      </div>
+      <div class="mc">
+        <div class="mic"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg></div>
+        <div class="mnum">02</div><div class="mname">Scrapers</div><div class="mdir">scrapers/</div>
+        <div class="mdesc">SPA-aware extraction for React/Vue, e-commerce and APIs.</div>
+        <div class="mpills"><span class="mpill">SPA</span><span class="mpill">XHR sniff</span></div>
+      </div>
+      <div class="mc">
+        <div class="mic"><svg viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+        <div class="mnum">03</div><div class="mname">Analyzers</div><div class="mdir">analyzers/</div>
+        <div class="mdesc">SEO audits, unused CSS, DOM mapping, performance.</div>
+        <div class="mpills"><span class="mpill">SEO</span><span class="mpill">Perf</span></div>
+      </div>
+      <div class="mc">
+        <div class="mic"><svg viewBox="0 0 24 24"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg></div>
+        <div class="mnum">06</div><div class="mname">Integrations</div><div class="mdir">integrations/</div>
+        <div class="mdesc">Push to S3, Airtable, Supabase, Notion, Slack instantly.</div>
+        <div class="mpills"><span class="mpill">S3</span><span class="mpill">Notion</span></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2.25rem;">
+      <a href="#" class="btn-o" onclick="go('modules');return false;" style="display:inline-flex;">All 8 module categories <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:.4rem"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+  </section>
+
+  <!-- Scenarios preview -->
+  <section class="sec rv" style="padding-top:0;">
+    <div class="slabel">Real Workflows</div>
+    <h2 class="stitle">Chain modules.<br/>Automate everything.</h2>
+    <p class="ssub">WebArsenal is built for orchestration. Combine scripts into complete extraction pipelines.</p>
+    <div class="scwrap">
+      <div class="sc">
+        <div class="schead"><div class="scind ind-r"></div><div class="sctitle">Mirror CF-protected site → S3</div></div>
+        <div class="scbody">
+          <div class="c-c"># bypass cloudflare</div>
+          <div><span class="c-b">node</span> auth-helpers/cf-clearance-puller.js <span class="c-a">--url</span> <span class="c-v">https://store.com</span></div>
+          <div><span class="c-b">node</span> core/super-mirror.js <span class="c-a">--depth</span> <span class="c-v">3</span> <span class="c-a">--cookie-jar</span> <span class="c-v">cf.json</span></div>
+          <div><span class="c-b">node</span> integrations/aws-s3-uploader.js <span class="c-a">--bucket</span> <span class="c-v">backups</span></div>
+        </div>
+      </div>
+      <div class="sc">
+        <div class="schead"><div class="scind ind-g"></div><div class="sctitle">SPA price monitor → Discord</div></div>
+        <div class="scbody">
+          <div class="c-c"># extract react spa data</div>
+          <div><span class="c-b">node</span> scrapers/spa-scraper.js <span class="c-a">--wait-for</span> <span class="c-v">'.products'</span></div>
+          <div><span class="c-b">node</span> exporters/to-sqlite.js <span class="c-a">--input</span> <span class="c-v">data.json</span></div>
+          <div><span class="c-b">node</span> monitors/discord-webhook.js <span class="c-a">--webhook</span> <span class="c-v">HOOK_URL</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta">
+    <h2>Ready to extract<br/><em>everything?</em></h2>
+    <p>One repo. 110 modules. Infinite possibilities.</p>
+    <div class="ctaacts">
+      <a href="https://github.com/edwinnyandika/webarsenal" class="btn-f" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        Clone Repository
+      </a>
+      <a href="#" class="btn-o" onclick="go('docs');return false;">Read the Docs →</a>
+    </div>
+  </div>
+
+  <footer class="ft">
+    <div class="ftlogo">Web<em>Arsenal</em></div>
+    <ul class="ftlinks">
+      <li><a href="#" onclick="go('modules');return false;">Modules</a></li>
+      <li><a href="#" onclick="go('docs');return false;">Docs</a></li>
+      <li><a href="#" onclick="go('about');return false;">About</a></li>
+      <li><a href="https://github.com/edwinnyandika/webarsenal" target="_blank">GitHub</a></li>
+    </ul>
+    <div class="ftcopy">MIT © Edwin Nyandika 2026</div>
+  </footer>
+</div>
+
+<!-- ════════════════════ PAGE: MODULES ════════════════════ -->
+<div class="page" id="p-modules">
+  <section class="sec" style="padding-top:9rem;">
+    <div class="slabel">Full Arsenal</div>
+    <h2 class="stitle">110 modules.<br/>8 categories.</h2>
+    <p class="ssub">Every directory is a weapons category. Every script is self-contained, CLI-first, and ready to chain.</p>
+    <div class="mgrid rv" style="grid-template-columns:repeat(2,1fr);margin-top:3rem;">
+      <div class="mc">
+        <div class="mic"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.66 0 3-4.03 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4.03-3-9s1.34-9 3-9m-9 9a9 9 0 019-9"/></svg></div>
+        <div class="mnum">01</div><div class="mname">Core Mirrors</div><div class="mdir">core/</div>
+        <div class="mdesc">High-performance recursive site downloaders. Clone entire deployed websites with Puppeteer & Playwright — every asset, every route, every depth level you specify.</div>
+        <div class="mpills"><span class="mpill">super-mirror.js</span><span class="mpill">grab-playwright.js</span><span class="mpill">asset-grabber.js</span></div>
+      </div>
+      <div class="mc">
+        <div class="mic"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg></div>
+        <div class="mnum">02</div><div class="mname">Targeted Scrapers</div><div class="mdir">scrapers/</div>
+        <div class="mdesc">Purpose-built for SPAs (React/Vue), e-commerce, social profiles, and API endpoint sniffing. Waits for JS hydration before extracting data.</div>
+        <div class="mpills"><span class="mpill">spa-scraper.js</span><span class="mpill">ecommerce-scraper.js</span><span class="mpill">api-sniffer.js</span></div>
+      </div>
+      <div class="mc">
+        <div class="mic"><svg viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+        <div class="mnum">03</div><div class="mname">DOM Analyzers</div><div class="mdir">analyzers/</div>
+        <div class="mdesc">Full SEO audits, unused CSS detection, performance profiling, and deep DOM tree mapping. Know exactly what's on any deployed page.</div>
+        <div class="mpills"><span class="mpill">seo-auditor.js</span><span class="mpill">unused-css.js</span><span class="mpill">perf-check.js</span><span class="mpill">dom-mapper.js</span></div>
+      </div>
+      <div class="mc">
+        <div class="mic"><svg viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg></div>
+        <div class="mnum">04</div><div class="mname">Auth Helpers</div><div class="mdir">auth-helpers/</div>
+        <div class="mdesc">Cloudflare bypass, Chrome cookie cloning, Bearer token extraction, session replay. For use on systems you own or are authorized to test.</div>
+        <div class="mpills"><span class="mpill">cf-clearance-puller.js</span><span class="mpill">cookie-cloner.js</span><span class="mpill">token-extractor.js</span></div>
+      </div>
+      <div class="mc">
+        <div class="mic"><svg viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg></div>
+        <div class="mnum">05</div><div class="mname">Data Exporters</div><div class="mdir">exporters/</div>
+        <div class="mdesc">Instantly convert extracted data to SQLite, WARC archives, CSV, Markdown, XML. Your data, your format, your pipeline.</div>
+        <div class="mpills"><span class="mpill">to-sqlite.js</span><span class="mpill">to-warc.js</span><span class="mpill">to-csv.js</span><span class="mpill">to-markdown.js</span></div>
+      </div>
+      <div class="mc">
+        <div class="mic"><svg viewBox="0 0 24 24"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg></div>
+        <div class="mnum">06</div><div class="mname">Cloud Integrations</div><div class="mdir">integrations/</div>
+        <div class="mdesc">Push directly to AWS S3, Airtable, Supabase, Notion, Slack, Discord. Route extracted data straight into your cloud stack.</div>
+        <div class="mpills"><span class="mpill">aws-s3-uploader.js</span><span class="mpill">airtable-sync.js</span><span class="mpill">notion-sync.js</span></div>
+      </div>
+      <div class="mc">
+        <div class="mic"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></div>
+        <div class="mnum">07</div><div class="mname">Change Monitors</div><div class="mdir">monitors/</div>
+        <div class="mdesc">Cron jobs, screenshot diffs, XPath-targeted change detection. Discord and Slack alerts the moment anything on a page changes.</div>
+        <div class="mpills"><span class="mpill">change-detector.js</span><span class="mpill">screenshot-diff.js</span><span class="mpill">discord-webhook.js</span></div>
+      </div>
+      <div class="mc">
+        <div class="mic"><svg viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+        <div class="mnum">08</div><div class="mname">Core Utils</div><div class="mdir">utils/</div>
+        <div class="mdesc">Proxy rotation, rate limiters, request interceptors, user-agent spoofing. Infrastructure backbone for large-scale scraping operations.</div>
+        <div class="mpills"><span class="mpill">proxy-rotator.js</span><span class="mpill">rate-limiter.js</span><span class="mpill">ua-spoofing.js</span></div>
+      </div>
+    </div>
+    <div class="badges">
+      <span class="badge hot">Puppeteer</span><span class="badge hot">Playwright</span>
+      <span class="badge">Cheerio</span><span class="badge">Axios</span><span class="badge">SQLite3</span>
+      <span class="badge new">AWS SDK</span><span class="badge">node-cron</span><span class="badge new">Supabase</span>
+      <span class="badge">sharp</span><span class="badge">Node.js v18+</span><span class="badge hot">JavaScript</span>
+    </div>
+  </section>
+  <footer class="ft"><div class="ftlogo">Web<em>Arsenal</em></div><ul class="ftlinks"><li><a href="#" onclick="go('home');return false;">Home</a></li><li><a href="#" onclick="go('docs');return false;">Docs</a></li><li><a href="https://github.com/edwinnyandika/webarsenal" target="_blank">GitHub</a></li></ul><div class="ftcopy">MIT © Edwin Nyandika 2026</div></footer>
+</div>
+
+<!-- ════════════════════ PAGE: DOCS ════════════════════ -->
+<div class="page" id="p-docs">
+  <div class="dlayout">
+    <aside class="dside rv">
+      <div class="dnavh">Getting Started</div>
+      <ul class="dnavl"><li><a href="#" class="on">Installation</a></li><li><a href="#">Prerequisites</a></li><li><a href="#">Quick Start</a></li></ul>
+      <div class="dnavh">Modules</div>
+      <ul class="dnavl"><li><a href="#">core/</a></li><li><a href="#">scrapers/</a></li><li><a href="#">analyzers/</a></li><li><a href="#">auth-helpers/</a></li><li><a href="#">exporters/</a></li><li><a href="#">integrations/</a></li><li><a href="#">monitors/</a></li><li><a href="#">utils/</a></li></ul>
+      <div class="dnavh">Guides</div>
+      <ul class="dnavl"><li><a href="#">Orchestration</a></li><li><a href="#">Proxy Setup</a></li><li><a href="#">Cloud Push</a></li><li><a href="#">Contributing</a></li></ul>
+    </aside>
+    <div class="dcontent rv d1">
+      <h2>Installation</h2>
+      <p>WebArsenal requires Node.js v18 or higher. Clone the repo and install dependencies.</p>
+      <pre><code><span style="color:var(--fire)">$</span> git clone https://github.com/edwinnyandika/webarsenal.git
+<span style="color:var(--fire)">$</span> cd webarsenal
+<span style="color:var(--fire)">$</span> npm install</code></pre>
+      <div class="dnote">Puppeteer and Playwright download browser binaries (~300MB) on first install. Expected and required.</div>
+      <h2>Quick Start</h2>
+      <h3>Mirror a full site</h3>
+      <pre><code>node core/super-mirror.js --url https://example.com --depth 4</code></pre>
+      <h3>Scrape a React SPA</h3>
+      <pre><code>node scrapers/spa-scraper.js --url https://app.example.com --wait-for '#root'</code></pre>
+      <h3>Run a full SEO audit</h3>
+      <pre><code>node analyzers/seo-auditor.js --url https://example.com --output report.json</code></pre>
+      <h3>Export data to SQLite</h3>
+      <pre><code>node exporters/to-sqlite.js --input data.json --db scrape.db</code></pre>
+      <h3>Push to AWS S3</h3>
+      <pre><code>node integrations/aws-s3-uploader.js --dir ./site_data --bucket my-bucket</code></pre>
+      <h2>Full Orchestration Example</h2>
+      <p>Chain scripts into a complete extraction pipeline:</p>
+      <pre><code><span style="color:var(--fog)"># Step 1: Bypass Cloudflare</span>
+node auth-helpers/cf-clearance-puller.js --url https://store.com
+
+<span style="color:var(--fog)"># Step 2: Deep mirror with cookie auth</span>
+node core/super-mirror.js --url https://store.com --depth 3 --cookie-jar cf_cookies.json
+
+<span style="color:var(--fog)"># Step 3: Upload to S3</span>
+node integrations/aws-s3-uploader.js --dir ./super-mirrored-site --bucket website-backups
+
+<span style="color:var(--fog)"># Step 4: Alert team on Slack</span>
+node integrations/slack-alerter.js --webhook YOUR_WEBHOOK --message "Mirror complete ✓"</code></pre>
+      <h2>Dependencies</h2>
+      <p>All dependencies are widely-trusted open-source packages. No proprietary SDKs required.</p>
+      <pre><code>puppeteer    — Headless Chrome automation
+playwright   — Cross-browser automation
+cheerio      — Fast server-side HTML parsing
+axios        — HTTP request engine
+sqlite3      — Local database exports
+aws-sdk      — S3 and AWS integrations
+node-cron    — Recurring job scheduling
+sharp        — Image processing</code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ PAGE: ABOUT ════════════════════ -->
+<div class="page" id="p-about">
+  <div class="ahero rv">
+    <div class="slabel" style="margin-bottom:1.5rem;">About the Project</div>
+    <h1 class="ah1">Built for devs<br/>who move <em>fast.</em></h1>
+    <p style="font-size:.9rem;color:var(--fog);max-width:540px;line-height:1.85;">WebArsenal is the toolkit the web developer community needed but didn't have — 110 focused, composable modules covering every phase of web data extraction.</p>
+  </div>
+  <div class="abody rv d1">
+    <div class="ablk">
+      <h2 class="stitle" style="font-size:1.65rem;margin-bottom:1.1rem;">The problem<br/>it solves</h2>
+      <p>Web extraction is fragmented. Developers stitch together Puppeteer snippets, Cheerio tutorials, half-finished proxy scripts, and manual Postman exports just to get data out of a site they own.</p>
+      <p>There was no single, well-organized toolkit that handles the full pipeline — from "clone this site" through to "push results to Notion." WebArsenal solves that.</p>
+      <ul class="alist">
+        <li>Self-contained scripts — one job per file, no hidden state</li>
+        <li>CLI-first — all flags, stdout output, pipe anywhere</li>
+        <li>Composable — output of one is natural input to the next</li>
+        <li>Zero SaaS — no API keys, no dashboards, no subscriptions</li>
+        <li>MIT licensed — use in commercial products freely</li>
+      </ul>
+    </div>
+    <div class="ablk">
+      <h2 class="stitle" style="font-size:1.65rem;margin-bottom:1.1rem;">Who it's for</h2>
+      <p>Full-stack devs, SEO engineers, data engineers, indie hackers, and security researchers (on systems they're authorized to test) all have something in this toolkit.</p>
+      <p>It's the kind of repo you bookmark and actually use — not a framework to learn, just scripts that work.</p>
+      <div class="stk">
+        <div class="stktitle">Technical Stack</div>
+        <div class="stkgrid">
+          <div class="stkitem"><div class="stkdot"></div>Node.js v18+</div>
+          <div class="stkitem"><div class="stkdot"></div>Puppeteer</div>
+          <div class="stkitem"><div class="stkdot"></div>Playwright</div>
+          <div class="stkitem"><div class="stkdot"></div>Cheerio</div>
+          <div class="stkitem"><div class="stkdot"></div>Axios</div>
+          <div class="stkitem"><div class="stkdot"></div>SQLite3</div>
+          <div class="stkitem"><div class="stkdot"></div>AWS SDK</div>
+          <div class="stkitem"><div class="stkdot"></div>node-cron</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="sec rv" style="padding-top:0;border-top:1px solid rgba(242,240,232,.06);">
+    <div class="slabel">Responsibility</div>
+    <h2 class="stitle">Power with ethics.</h2>
+    <p class="ssub">Always respect <code style="font-family:var(--ff-m);color:var(--fire);font-size:.85em">robots.txt</code>, honor Terms of Service, and only extract from sites you own or have permission to access.</p>
+    <div class="fgrid" style="margin-top:2.5rem;">
+      <div class="fi">
+        <div class="fiic" style="background:rgba(90,247,142,.07);color:#5af78e;"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
+        <div class="finame">Respect robots.txt</div>
+        <div class="fidesc">The rate-limiter is specifically designed to prevent server overload.</div>
+      </div>
+      <div class="fi">
+        <div class="fiic" style="background:rgba(212,168,67,.07);color:var(--gold);"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg></div>
+        <div class="finame">Permission first</div>
+        <div class="fidesc">Auth modules are for legitimate session management on systems you own.</div>
+      </div>
+      <div class="fi">
+        <div class="fiic" style="background:rgba(184,238,255,.06);color:var(--ice);"><svg viewBox="0 0 24 24"><path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+        <div class="finame">MIT Open Source</div>
+        <div class="fidesc">Fully open. Use, fork, and ship in commercial products — keep it ethical.</div>
+      </div>
+    </div>
+  </section>
+  <footer class="ft"><div class="ftlogo">Web<em>Arsenal</em></div><ul class="ftlinks"><li><a href="#" onclick="go('home');return false;">Home</a></li><li><a href="#" onclick="go('modules');return false;">Modules</a></li><li><a href="https://github.com/edwinnyandika/webarsenal" target="_blank">GitHub</a></li></ul><div class="ftcopy">MIT © Edwin Nyandika 2026</div></footer>
+</div>
+
+<script>
+// ── Cursor ──
+const cur=document.getElementById('cur'),curt=document.getElementById('curt');
+let mx=0,my=0,tx=0,ty=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+(function anim(){tx+=(mx-tx)*.13;ty+=(my-ty)*.13;curt.style.left=tx+'px';curt.style.top=ty+'px';requestAnimationFrame(anim);})();
+document.querySelectorAll('a,button,.mc,.sc,.fi').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('h'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('h'));
+});
+
+// ── Page router ──
+function go(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.getElementById('p-'+name).classList.add('on');
+  document.querySelectorAll('.nlinks a').forEach(a=>a.classList.remove('on'));
+  const n=document.getElementById('n-'+name);
+  if(n)n.classList.add('on');
+  window.scrollTo(0,0);
+  setTimeout(rev,60);
+}
+
+// ── Reveal ──
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.07});
+function rev(){document.querySelectorAll('.page.on .rv').forEach(el=>obs.observe(el));}
+rev();
+</script>
+</body>
+</html>
